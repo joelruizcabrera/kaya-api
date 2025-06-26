@@ -19,6 +19,6 @@
 ###< phpunit/phpunit ###
 
 .env.dev
-.end.test
+.env.test
 .idea
 symfony.lock
