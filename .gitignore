@@ -17,3 +17,8 @@
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
+
+.env.dev
+.end.test
+.idea
+symfony.lock
