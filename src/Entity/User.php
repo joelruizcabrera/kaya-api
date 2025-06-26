@@ -36,6 +36,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 2, max: 100, minMessage: 'Nachname muss mindestens 2 Zeichen lang sein.')]
     private string $lastName;
 
+    private Collection $addresses;
+
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
