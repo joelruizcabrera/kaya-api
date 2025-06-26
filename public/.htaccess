@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+    ServerName kaya-api.gruenerdaumen.club
+    DocumentRoot /var/www/vhosts/gruenerdaumen.club/kaya-api.gruenerdaumen.club/public
+
+    <Directory /var/www/vhosts/gruenerdaumen.club/kaya-api.gruenerdaumen.club/public>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/symfony_error.log
+    CustomLog ${APACHE_LOG_DIR}/symfony_access.log combined
+</VirtualHost>
