@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DTO\UserAddressDto;
 use App\Entity\UserAddress;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,15 +41,29 @@ class UserAddressController extends AbstractController
                 ], Response::HTTP_BAD_REQUEST);
             }
 
-            $constraints = new Assert\Collection([
-                'postcode' => new Assert\NotBlank(), new Assert\Length(['max' => 255]),
-                'street' => new Assert\NotBlank(), new Assert\Length(['max' => 255]),
-                'housenumber' => new Assert\NotBlank(), new Assert\Length(['max' => 255]),
-                'city' => new Assert\NotBlank(), new Assert\Length(['max' => 255]),
-                'additional' => new Assert\Optional(), new Assert\Length(['max' => 255]),
-            ]);
+            $addressDto = new UserAddressDto();
 
-            $violations = $this->validator->validate($data, $constraints);
+            if (isset($data['street'])) {
+                $addressDto->street = $data['street'];
+            }
+
+            if (isset($data['housenumber'])) {
+                $addressDto->housenumber = $data['housenumber'];
+            }
+
+            if (isset($data['postcode'])) {
+                $addressDto->postcode = $data['postcode'];
+            }
+
+            if (isset($data['city'])) {
+                $addressDto->city = $data['city'];
+            }
+
+            if (isset($data['additional'])) {
+                $addressDto->additional = $data['additional'];
+            }
+
+            $violations = $this->validator->validate($addressDto);
 
             if (count($violations) > 0) {
                 $errors = [];
