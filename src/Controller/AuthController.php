@@ -131,7 +131,8 @@ class AuthController extends AbstractController
         } catch (\Exception $e) {
             return new JsonResponse([
                 'success' => false,
-                'message' => 'Ein Fehler ist aufgetreten'
+                'message' => 'Ein Fehler ist aufgetreten',
+                'errors' => [$e->getMessage()]
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

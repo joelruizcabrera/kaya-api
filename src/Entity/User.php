@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -36,6 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 2, max: 100, minMessage: 'Nachname muss mindestens 2 Zeichen lang sein.')]
     private string $lastName;
 
+    #[ORM\OneToMany(targetEntity: UserAddress::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private Collection $addresses;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -44,6 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->addresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -54,6 +58,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    /**
+     * @return Collection<int, UserAddress>
+     */
+
+    public function getAddresses(): Collection
+    {
+        return $this->addresses;
+    }
+
+    public function addAddress(UserAddress $address): static
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
+            $address->setUser($this);
+        }
+        return $this;
+    }
+
+    public function removeAddress(UserAddress $address): static
+    {
+        if ($this->addresses->contains($address)) {
+            $this->addresses->removeElement($address);
+            if ($address->getUser() === $this) {
+                $address->setUser(null);
+            }
+        }
     }
 
     public function setEmail(string $email): self
