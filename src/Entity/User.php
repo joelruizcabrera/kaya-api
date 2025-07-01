@@ -136,14 +136,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->createdAt;
     }
-
-    public function getRoles(): array
-    {
-        // TODO: Implement getRoles() method.
-    }
-
-    public function eraseCredentials(): void
-    {
-        // TODO: Implement eraseCredentials() method.
-    }
 }
